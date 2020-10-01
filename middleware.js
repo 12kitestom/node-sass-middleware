@@ -208,13 +208,7 @@ module.exports = function(options) {
       cssDone = false;
       sourceMapDone = !sourceMap;
 
-      mkdirp(dirname(cssPath), '0700', function(err) {
-        if (err) {
-          error(err);
-          cssDone = true;
-          return doneWriting();
-        }
-
+      mkdirp(dirname(cssPath), '0700').then(function() {
         fs.writeFile(cssPath, data, 'utf8', function(err) {
           log('debug', 'write', cssPath);
 
@@ -225,17 +219,17 @@ module.exports = function(options) {
           cssDone = true;
           doneWriting();
         });
-      });
+      }).catch(
+        function(err) {
+          error(err);
+          cssDone = true;
+          doneWriting();
+        }
+      );
 
       if (sourceMap) {
         var sourceMapPath = this.options.sourceMap;
-        mkdirp(dirname(sourceMapPath), '0700', function(err) {
-          if (err) {
-            error(err);
-            sourceMapDone = true;
-            return doneWriting();
-          }
-
+        mkdirp(dirname(sourceMapPath), '0700').then(function() {
           fs.writeFile(sourceMapPath, result.map, 'utf8', function(err) {
             log('debug', 'write', sourceMapPath);
 
@@ -246,7 +240,13 @@ module.exports = function(options) {
             sourceMapDone = true;
             doneWriting();
           });
-        });
+        }).catch(
+          function(err) {
+            error(err);
+            sourceMapDone = true;
+            return doneWriting();
+          }
+        );
       }
     };
 
