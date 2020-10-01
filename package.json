@@ -1,8 +1,8 @@
 {
   "author": "Andrew Nesbitt <andrewnez@gmail.com> (http://andrew.github.com)",
-  "name": "node-sass-middleware",
+  "name": "@twelvekites/node-sass-middleware",
   "description": "Connect middleware for node-sass",
-  "version": "0.11.2",
+  "version": "0.11.2-patched",
   "scripts": {
     "lint": "./node_modules/.bin/eslint middleware.js test",
     "test": "./node_modules/.bin/mocha"
@@ -31,7 +31,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1",
+    "mkdirp": "^1.0.4",
     "node-sass": "^4.14.1"
   },
   "devDependencies": {
